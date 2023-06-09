@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.contrib import slim
+import tf_slim as slim
 from data_augmentation import flow_resize
 from utils import lrelu
 from warp import tf_warp

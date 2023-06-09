@@ -13,7 +13,7 @@ from utils import create_dir
 
 operating_system = sys.platform
 
-tf_config = tf.ConfigProto(device_count={'GPU': 1})
+tf_config = tf.compat.v1.ConfigProto(device_count={'GPU': 1})
 tf_config.gpu_options.per_process_gpu_memory_fraction = 0.2
 temporal_stride = 5
 temporal_size = 5

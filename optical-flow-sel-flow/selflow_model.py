@@ -10,7 +10,7 @@ import cv2
 
 from six.moves import xrange
 from scipy import misc, io
-from tensorflow.contrib import slim
+import tf_slim as slim
 
 import args
 from folder_images import *
@@ -174,7 +174,7 @@ class SelFlowModel(object):
         
         restore_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES) 
         saver = tf.train.Saver(var_list=restore_vars)
-        tf_config = tf.ConfigProto(device_count={'GPU': 1})
+        tf_config = tf.compat.v1.ConfigProto(device_count={'GPU': 1})
         tf_config.gpu_options.per_process_gpu_memory_fraction = 0.5
         sess = tf.Session(config=tf_config)
         sess.run(tf.global_variables_initializer())  

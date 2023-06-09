@@ -9,7 +9,7 @@ from my_utils import create_dir
 
 operating_system = sys.platform
 
-tf_config = tf.ConfigProto()
+tf_config = tf.compat.v1.ConfigProto()
 tf_config.gpu_options.per_process_gpu_memory_fraction = 0.3
 temporal_stride = 1
 temporal_size = 1
