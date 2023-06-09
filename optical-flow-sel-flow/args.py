@@ -19,7 +19,7 @@ detection_threshold = 0.8
 
 database_name = 'ShanghaiTech'
 output_folder_base = '/home/lili/datasets/abnormal_event/shanghai/output_yolo_%.2f' % detection_threshold
-input_folder_base = '/home/lili/datasets/abnormal_event/shanghai'
+input_folder_base = '/content/detection-video'
 adversarial_images_path = "/home/lili/datasets/adversarial_images"
 
 samples_folder_name = 'images_%d_%d_%.2f' % (temporal_size, temporal_stride, detection_threshold)
