@@ -118,7 +118,7 @@ def log_error(error):
 
 def load_graph(graph_path):
     with tf.io.gfile.GFile(graph_path, 'rb') as f:
-        graph_def = tf.GraphDef()
+        graph_def = tf.compat.v1.GraphDef()
         graph_def.ParseFromString(f.read())
     return graph_def
 
