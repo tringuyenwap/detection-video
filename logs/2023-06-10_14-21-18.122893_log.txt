@@ -1,0 +1,54 @@
+
+==============================
+
+2023-06-10 14:21:18.131353 - 
+
+
+
+
+Starting the algorithm with the following parameters: 
+     np=<module 'numpy' from 'C:\\Users\\PV\\AppData\\Local\\Programs\\Python\\Python39\\lib\\site-packages\\numpy\\__init__.py'>
+     tf=<module 'tensorflow' from 'C:\\Users\\PV\\AppData\\Local\\Programs\\Python\\Python39\\lib\\site-packages\\tensorflow\\__init__.py'>
+     os=<module 'os' from 'C:\\Users\\PV\\AppData\\Local\\Programs\\Python\\Python39\\lib\\os.py'>
+     ProcessingType=<enum 'ProcessingType'>
+     log_message=<function log_message at 0x000001F938136280>
+     check_file_existence=<function check_file_existence at 0x000001F938136550>
+     pdb=<module 'pdb' from 'C:\\Users\\PV\\AppData\\Local\\Programs\\Python\\Python39\\lib\\pdb.py'>
+     sys=<module 'sys' (built-in)>
+     create_dir=<function create_dir at 0x000001F9381364C0>
+     operating_system=win32
+     tf_config=device_count {
+  key: "GPU"
+  value: 1
+}
+gpu_options {
+  per_process_gpu_memory_fraction: 0.2
+}
+
+     temporal_stride=5
+     temporal_size=5
+     temporal_offsets=[-5  0  5]
+     detection_threshold=0.8
+     lambda_=1.0
+     database_name=ShanghaiTech
+     output_folder_base=/content/detection-video/train/videos/output_yolo_0.80
+     input_folder_base=/content/detection-video/train/videos
+     adversarial_images_path=/home/lili/datasets/adversarial_images
+     samples_folder_name=images_5_5_0.80
+     meta_folder_name=meta_5_5_0.80
+     object_detector_num_classes=90
+     block_scale=20
+     logs_folder=logs
+     num_samples_for_visualization=500
+     CHECKPOINTS_PREFIX=adv_excluded_classes_unet_1.000000
+     excluded_training_classes=[2, 3, 4, 6, 8]
+     CHECKPOINTS_BASE=/content/detection-video/train/videos/output_yolo_0.80\ShanghaiTech\checkpoints\adv_excluded_classes_unet_1.000000
+     allowed_video_extensions=['avi', 'mp4']
+     allowed_image_extensions=['jpg', 'png', 'jpeg']
+     RESTORE_FROM_HISTORY=True
+     history_filename=history_ShanghaiTech_%s.txt
+     log_parameters=<function log_parameters at 0x000001F938136AF0>
+
+==============================
+
+2023-06-10 14:21:18.132862 - Function extract_masks has started.
