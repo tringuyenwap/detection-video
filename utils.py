@@ -126,7 +126,7 @@ def load_graph(graph_path):
 def read_graph_and_init_session(graph_path, name, config):
     graph_def = load_graph(graph_path)
     graph = tf.import_graph_def(graph_def, name=name)
-    sess = tf.Session(graph=graph, config=config)
+    sess = tf.compat.v1.Session(graph=graph, config=config)
     return sess
 
 
