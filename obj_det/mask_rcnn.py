@@ -22,7 +22,7 @@ class MaskRCNN:
         self.confidence_threshold = confidence_threshold
         self.num_classes = 90
         self.graph_name = 'mask_rcnn'
-        self.session = read_graph_and_init_session('./models/mask_rcnn/frozen_inference_graph.pb',
+        self.session = read_graph_and_init_session('/models/mask_rcnn/frozen_inference_graph.pb',
                                                    self.graph_name, config)
         self.is_bgr = is_bgr
         # self.__init_all_sessions()
