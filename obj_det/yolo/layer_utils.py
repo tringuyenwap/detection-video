@@ -83,8 +83,11 @@ def yolo_block(inputs, filters):
 
 
 def upsample_layer(inputs, out_shape):
+    # new_height, new_width = out_shape[1], out_shape[2]
+    # # NOTE: here height is the first
+    # # TODO: Do we need to set `align_corners` as True?
+    # inputs = tf.image.resize_nearest_neighbor(inputs, (new_height, new_width), name='upsampled')
+
     new_height, new_width = out_shape[1], out_shape[2]
-    # NOTE: here height is the first
-    # TODO: Do we need to set `align_corners` as True?
-    inputs = tf.image.resize_nearest_neighbor(inputs, (new_height, new_width), name='upsampled')
+    inputs = tf.image.resize(inputs, size=(new_height, new_width), method=tf.image.ResizeMethod.NEAREST_NEIGHBOR, name='upsampled')
     return inputs
