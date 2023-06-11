@@ -174,7 +174,7 @@ class YoloV3:
             sys.exit(-1)
 
         yolo_graph = tf.Graph()
-        session = tf.Session(graph=yolo_graph, config=config)
+        session = tf.compat.v1.Session(graph=yolo_graph, config=config)
 
         with yolo_graph.as_default():
             input_data = tf.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
