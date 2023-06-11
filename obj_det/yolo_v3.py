@@ -188,9 +188,8 @@ class YoloV3:
 
             boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
 
-            saver = tf.train.Saver()
-            saver.restore(session, graph_path)
-
+            # Load the saved model
+            model = tf.keras.models.load_model(graph_path)
         return session
 
     @staticmethod
