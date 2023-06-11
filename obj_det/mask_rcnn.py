@@ -21,7 +21,7 @@ class MaskRCNN:
 
         self.confidence_threshold = confidence_threshold
         self.num_classes = 90
-        self.graph_name = 'mask_rcnn'
+        self.graph_name = 'mask_rcnn_inception_v2_coco_2018_01_28'
         self.session = read_graph_and_init_session('/content/detection-video/models/mask_rcnn/mask_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb',
                                                    self.graph_name, config)
         self.is_bgr = is_bgr
@@ -44,13 +44,10 @@ class MaskRCNN:
             self.graph_name + '/detection_masks:0'
         ]
 
-        detection_graph = self.model.signatures['serving_default']
-        detections = detection_graph(images)
-        boxes = detections[output_tensor_names[0]]
-        scores = detections[output_tensor_names[1]]
-        classes = detections[output_tensor_names[2]]
-        num_detections = detections[output_tensor_names[3]]
-        masks = detections[output_tensor_names[4]]
+        boxes, scores, classes, num_detections, masks = self.session.run(
+            [self.session.graph.get_tensor_by_name(name) for name in output_tensor_names],
+            feed_dict={self.graph_name + '/image_tensor:0': images}
+        )
 
         return boxes, scores, classes, num_detections, masks
 
