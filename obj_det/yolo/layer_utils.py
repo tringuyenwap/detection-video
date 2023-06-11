@@ -4,7 +4,7 @@ from __future__ import division, print_function
 import numpy as np
 import tensorflow as tf
 
-slim = tf.contrib.slim
+slim = tf.compat.v1.estimator.slim
 
 
 def conv2d(inputs, filters, kernel_size, strides=1):
