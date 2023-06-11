@@ -5,8 +5,7 @@
 # https://blog.csdn.net/leviopku/article/details/82660381
 from obj_det.yolo.layer_utils import conv2d, darknet53_body, yolo_block, upsample_layer
 import tensorflow as tf
-
-slim = tf.contrib.slim
+import tf_slim as slim
 
 
 class yolov3:
