@@ -122,12 +122,23 @@ def load_graph(graph_path):
         graph_def.ParseFromString(f.read())
     return graph_def
 
-
 def read_graph_and_init_session(graph_path, name, config):
-    graph_def = load_graph(graph_path)
-    graph = tf.import_graph_def(graph_def, name=name)
+    graph_def = tf.compat.v1.GraphDef()
+    with tf.io.gfile.GFile(graph_path, 'rb') as f:
+        graph_def.ParseFromString(f.read())
+
+    graph = tf.Graph()
+    with graph.as_default():
+        tf.import_graph_def(graph_def, name=name)
+
     sess = tf.compat.v1.Session(graph=graph, config=config)
     return sess
+
+# def read_graph_and_init_session(graph_path, name, config):
+#     graph_def = load_graph(graph_path)
+#     graph = tf.import_graph_def(graph_def, name=name)
+#     sess = tf.compat.v1.Session(graph=graph, config=config)
+#     return sess
 
 
 def create_dir(directory_name):
