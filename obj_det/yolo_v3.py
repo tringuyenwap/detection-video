@@ -183,8 +183,8 @@ class YoloV3:
                 pred_feature_maps = yolo_model.forward(input_data, False)
             pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
 
-            pred_boxes_ph = tf.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
-            pred_scores_ph = tf.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
+            pred_boxes_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
+            pred_scores_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
 
             boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
 
