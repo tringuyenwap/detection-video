@@ -47,10 +47,10 @@ class yolov3:
                                 biases_initializer=None,
                                 activation_fn=lambda x: tf.nn.leaky_relu(x, alpha=0.1),
                                 weights_regularizer=slim.l2_regularizer(self.weight_decay)):
-                with tf.variable_scope('darknet53_body'):
+                with tf.compat.v1.variable_scope('darknet53_body'):
                     route_1, route_2, route_3 = darknet53_body(inputs)
 
-                with tf.variable_scope('yolov3_head'):
+                with tf.compat.v1.variable_scope('yolov3_head'):
                     inter1, net = yolo_block(route_3, 512)
                     feature_map_1 = slim.conv2d(net, 3 * (5 + self.class_num), 1,
                                                 stride=1, normalizer_fn=None,
