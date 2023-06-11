@@ -35,12 +35,11 @@ class MaskRCNN:
 
     def __run_detection_network(self, images):  
         boxes, scores, classes, num_detections, masks = self.session.run(
-            [self.session.graph.get_tensor_by_name(self.graph_name + '/detection_boxes:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_scores:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_classes:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/num_detections:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_masks:0')
-
+            [self.session.graph.get_tensor_by_name(self.graph_name + '/detection_boxes'),
+             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_scores'),
+             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_classes'),
+             self.session.graph.get_tensor_by_name(self.graph_name + '/num_detections'),
+             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_masks')
              ], feed_dict={self.graph_name + '/image_tensor:0': images})
         return boxes, scores, classes, num_detections, masks
 
