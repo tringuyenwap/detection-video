@@ -179,7 +179,7 @@ class YoloV3:
         with yolo_graph.as_default():
             input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
             yolo_model = yolov3(self.num_classes, self.anchors)
-            with tf.variable_scope('yolov3'):
+            with tf.compat.v1.variable_scope('yolov3'):
                 pred_feature_maps = yolo_model.forward(input_data, False)
             pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
 
