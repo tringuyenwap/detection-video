@@ -33,15 +33,36 @@ class MaskRCNN:
         # detection network
         self.__run_detection_network([self.__preprocessing_image_for_detection_network(image)])
 
-    def __run_detection_network(self, images):  
-        boxes, scores, classes, num_detections, masks = self.session.run(
-            [self.session.graph.get_tensor_by_name(self.graph_name + '/detection_boxes:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_scores:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_classes:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/num_detections:0'),
-             self.session.graph.get_tensor_by_name(self.graph_name + '/detection_masks:0')
-             ], feed_dict={self.graph_name + '/image_tensor:0': images})
+
+    def __run_detection_network(self, images):
+        input_tensor_name = self.graph_name + '/image_tensor:0'
+        output_tensor_names = [
+            self.graph_name + '/detection_boxes:0',
+            self.graph_name + '/detection_scores:0',
+            self.graph_name + '/detection_classes:0',
+            self.graph_name + '/num_detections:0',
+            self.graph_name + '/detection_masks:0'
+        ]
+
+        detection_graph = self.model.signatures['serving_default']
+        detections = detection_graph(images)
+        boxes = detections[output_tensor_names[0]]
+        scores = detections[output_tensor_names[1]]
+        classes = detections[output_tensor_names[2]]
+        num_detections = detections[output_tensor_names[3]]
+        masks = detections[output_tensor_names[4]]
+
         return boxes, scores, classes, num_detections, masks
+
+    # def __run_detection_network(self, images):  
+    #     boxes, scores, classes, num_detections, masks = self.session.run(
+    #         [self.session.graph.get_tensor_by_name(self.graph_name + '/detection_boxes:0'),
+    #          self.session.graph.get_tensor_by_name(self.graph_name + '/detection_scores:0'),
+    #          self.session.graph.get_tensor_by_name(self.graph_name + '/detection_classes:0'),
+    #          self.session.graph.get_tensor_by_name(self.graph_name + '/num_detections:0'),
+    #          self.session.graph.get_tensor_by_name(self.graph_name + '/detection_masks:0')
+    #          ], feed_dict={self.graph_name + '/image_tensor:0': images})
+    #     return boxes, scores, classes, num_detections, masks
 
     def __preprocessing_image_for_detection_network(self, image):
         if self.is_bgr:
