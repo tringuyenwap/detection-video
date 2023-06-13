@@ -50,7 +50,7 @@ def model(inputs_, filters_last_layers=1):
 
 
 def decoder(encoded):
-    with tf.variable_scope('mask_decoder') as scope:
+    with tf.compat.v1.variable_scope('mask_decoder') as scope:
         # Now 8x8x16
         ### Decoder
         upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),

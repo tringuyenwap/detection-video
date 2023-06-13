@@ -9,7 +9,7 @@ from ae.cbam import *
 
 
 def encoder(inputs_):
-    with tf.variable_scope('encoder'):
+    with tf.compat.v1.variable_scope('encoder'):
         ### Encoder
         conv1 = tf.layers.conv2d(inputs=inputs_, filters=32, kernel_size=(3, 3), padding='same', activation=tf.nn.relu)
 
@@ -27,7 +27,7 @@ def encoder(inputs_):
 
 
 def encoder_shallow(inputs_):
-    with tf.variable_scope('encoder'):
+    with tf.compat.v1.variable_scope('encoder'):
         ### Encoder
         conv1 = tf.layers.conv2d(inputs=inputs_, filters=32, kernel_size=(3, 3), padding='same', activation=tf.nn.relu)
 
@@ -43,7 +43,7 @@ def encoder_shallow(inputs_):
         encoded = tf.layers.max_pooling2d(conv3, pool_size=(2, 2), strides=(2, 2), padding='same')
         return encoded
 def encoder_wider_latent(inputs_):
-    with tf.variable_scope('encoder'):
+    with tf.compat.v1.variable_scope('encoder'):
         ### Encoder
         conv1 = tf.layers.conv2d(inputs=inputs_, filters=32, kernel_size=(3, 3), padding='same', activation=tf.nn.relu)
 
@@ -59,7 +59,7 @@ def encoder_wider_latent(inputs_):
         encoded = tf.layers.max_pooling2d(conv3, pool_size=(2, 2), strides=(2, 2), padding='same')
         return encoded
 def encoder_wider(inputs_):
-    with tf.variable_scope('encoder'):
+    with tf.compat.v1.variable_scope('encoder'):
         ### Encoder
         conv1 = tf.layers.conv2d(inputs=inputs_, filters=256, kernel_size=(3, 3), padding='same', activation=tf.nn.relu)
 
@@ -77,7 +77,7 @@ def encoder_wider(inputs_):
 
 
 def decoder(encoded, name, num_output_filter, conv1, conv2, conv3):
-    with tf.variable_scope('decoder/' + name) as scope:
+    with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
         upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
@@ -107,7 +107,7 @@ def decoder(encoded, name, num_output_filter, conv1, conv2, conv3):
 
 
 def decoder_wider(encoded, name, num_output_filter=1):
-    with tf.variable_scope('decoder/' + name) as scope:
+    with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
         upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
@@ -133,7 +133,7 @@ def decoder_wider(encoded, name, num_output_filter=1):
 
 
 def decoder_mask(encoded, name):
-    with tf.variable_scope('decoder/' + name) as scope:
+    with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
         upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),

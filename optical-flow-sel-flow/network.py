@@ -5,7 +5,7 @@ from utils import lrelu
 from warp import tf_warp
 
 def feature_extractor(x, train=True, trainable=True, reuse=None, regularizer=None, name='feature_extractor'):
-    with tf.variable_scope(name, reuse=reuse, regularizer=regularizer):
+    with tf.compat.v1.variable_scope(name, reuse=reuse, regularizer=regularizer):
         with slim.arg_scope([slim.conv2d], activation_fn=lrelu, kernel_size=3, padding='SAME', trainable=trainable):
             net = {}
             net['conv1_1'] = slim.conv2d(x, 16, stride=2, scope='conv1_1')
@@ -30,7 +30,7 @@ def feature_extractor(x, train=True, trainable=True, reuse=None, regularizer=Non
 
 def context_network(x, flow, train=True, trainable=True, reuse=None, regularizer=None, name='context_network'):
     x_input = tf.concat([x, flow], axis=-1)
-    with tf.variable_scope(name, reuse=reuse, regularizer=regularizer):
+    with tf.compat.v1.variable_scope(name, reuse=reuse, regularizer=regularizer):
         with slim.arg_scope([slim.conv2d], activation_fn=lrelu, kernel_size=3, padding='SAME', trainable=trainable):        
             net = {}
             net['dilated_conv1'] = slim.conv2d(x_input, 128, rate=1, scope='dilated_conv1')
@@ -46,7 +46,7 @@ def context_network(x, flow, train=True, trainable=True, reuse=None, regularizer
 
 def estimator_network(x1, cost_volume, flow, train=True, trainable=True, reuse=None, regularizer=None, name='estimator'):
     net_input = tf.concat([cost_volume, x1, flow], axis=-1)
-    with tf.variable_scope(name, reuse=reuse, regularizer=regularizer):
+    with tf.compat.v1.variable_scope(name, reuse=reuse, regularizer=regularizer):
         with slim.arg_scope([slim.conv2d], activation_fn=lrelu, kernel_size=3, padding='SAME', trainable=trainable):        
             net = {}
             net['conv1'] = slim.conv2d(net_input, 128, scope='conv1')
