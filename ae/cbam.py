@@ -42,7 +42,7 @@ def spatial_attention_module(input_):
         f_avg = tf.reduce_mean(input_, axis=-1)
         f_max = tf.math.reduce_max(input_, axis=-1)
         f_pool = tf.stack((f_avg, f_max), axis=-1)
-        conv_layer = tf.layers.conv2d(inputs=f_pool, filters=1, kernel_size=(3, 3), padding='same',
+        conv_layer = tf.compat.v1.layers.conv2d(inputs=f_pool, filters=1, kernel_size=(3, 3), padding='same',
                                       activation=tf.nn.sigmoid)
         # B x H x W 
         x_tilde = tf.multiply(input_, conv_layer)
@@ -56,7 +56,7 @@ def create_mask(input_):
         f_avg = tf.reduce_mean(input_, axis=-1)
         f_max = tf.math.reduce_max(input_, axis=-1)
         f_pool = tf.stack((f_avg, f_max), axis=-1)
-        mask = tf.layers.conv2d(inputs=f_pool, filters=1, kernel_size=(3, 3), padding='same',  activation=None)
+        mask = tf.compat.v1.layers.conv2d(inputs=f_pool, filters=1, kernel_size=(3, 3), padding='same',  activation=None)
         return mask
 
 def cbam_module(inputs_, ratio=4):
