@@ -20,7 +20,7 @@ import args
 class Experiment:
 
     def __init__(self, prefix_checkpoint, is_testing=False, num_channels=2, learning_rate_init=10 ** -3, num_epochs=30, batch_size=64):
-        tf.reset_default_graph()
+        tf.compat.v1.reset_default_graph()
         self.prefix = prefix_checkpoint
         self.learning_rate_init = learning_rate_init
         self.num_epochs = num_epochs

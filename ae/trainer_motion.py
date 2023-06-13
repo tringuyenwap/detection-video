@@ -323,7 +323,7 @@ def get_tf_data_set(fn, batch_size):
 def train(ae_motion_type: MotionAeType, batch_size=64):
 
     log_function_start()
-    tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     if ae_motion_type.value == MotionAeType.NEXT.value:
         folder_name = "optical_flow_samples_fwd"
     else:
@@ -355,7 +355,7 @@ def train(ae_motion_type: MotionAeType, batch_size=64):
 def test(ae_motion_type: MotionAeType, batch_size=64):
 
     log_function_start()
-    tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     if ae_motion_type.value == MotionAeType.NEXT.value:
         folder_name = "optical_flow_samples_fwd"
     else:

@@ -307,7 +307,7 @@ class AppearanceAe:
 
 def train():
     log_function_start()
-    tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     ae_trainer = AppearanceAe()
 
     data_reader_training: DataSetReaderAppearance = DataSetReaderAppearance(os.path.join(args.output_folder_base,
@@ -339,7 +339,7 @@ def train():
 
 def test():
     log_function_start()
-    tf.reset_default_graph()
+    tf.compat.v1.reset_default_graph()
     ae_trainer = AppearanceAe()
     data_reader_test: DataSetReaderAppearance = DataSetReaderAppearance(os.path.join(args.output_folder_base,
                                                                                      args.database_name,
