@@ -48,7 +48,7 @@ class Experiment:
         self.learning_rate = learning_rate_init
         self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(self.avg_cost,
                                                                                            global_step=self.global_step)
-        self.sess = tf.Session(config=args.tf_config)
+        self.sess = tf.compat.v1.Session(config=args.tf_config)
 
         self.train_loss_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="train_loss")
         self.val_loss_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="val_loss")

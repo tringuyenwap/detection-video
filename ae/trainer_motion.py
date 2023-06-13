@@ -39,7 +39,7 @@ class MotionAe:
             self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
             self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
 
-        self.session = tf.Session(config=args.tf_config)
+        self.session = tf.compat.v1.Session(config=args.tf_config)
         self.decoded, self.encoded = cae.model(self.inputs_, 2)
         self.cost = tf.square(self.decoded - self.targets_)
         self.loss = tf.reduce_mean(self.cost)

@@ -36,7 +36,7 @@ class MotionAe:
         self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
         self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
 
-        self.session = tf.Session(config=args.tf_config)
+        self.session = tf.compat.v1.Session(config=args.tf_config)
         self.encoded, self.conv1, self.conv2, self.conv3 = cae.encoder(self.inputs_)
 
         self.encoder_variables = tf.global_variables()

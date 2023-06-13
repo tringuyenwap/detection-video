@@ -113,7 +113,7 @@ class SelFlowModel(object):
         
         restore_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES) 
         saver = tf.train.Saver(var_list=restore_vars)
-        sess = tf.Session()
+        sess = tf.compat.v1.Session()
         sess.run(tf.global_variables_initializer()) 
         sess.run(iterator.initializer) 
         saver.restore(sess, restore_model)
@@ -176,7 +176,7 @@ class SelFlowModel(object):
         saver = tf.train.Saver(var_list=restore_vars)
         tf_config = tf.compat.v1.ConfigProto(device_count={'GPU': 1})
         tf_config.gpu_options.per_process_gpu_memory_fraction = 0.5
-        sess = tf.Session(config=tf_config)
+        sess = tf.compat.v1.Session(config=tf_config)
         sess.run(tf.global_variables_initializer())  
         saver.restore(sess, restore_model)
         is_adv = False

@@ -30,7 +30,7 @@ class AppearanceAe:
         self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='inputs')
         # self.target_masks = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='target_masks')
         self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='targets')
-        self.session = tf.Session(config=args.tf_config)
+        self.session = tf.compat.v1.Session(config=args.tf_config)
         self.decoded, self.encoded = cae.model(self.inputs_)
         # self.masks = cae.decoder(self.encoded)
         self.cost = tf.square(self.decoded - self.targets_)

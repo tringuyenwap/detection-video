@@ -14,7 +14,7 @@ from dataset_reader_appearance import *
 from utils import ProcessingType, create_dir, log_message, log_function_start, log_function_end, concat_images
 import ae.adversarial_training.conv_autoencoder as cae
 from ae.adversarial_training.dataset_reader_adversarial import *
-
+tf.compat.v1.disable_eager_execution()
 min_bbox_size = 0
 max_bbox_size = 300
 
@@ -32,7 +32,7 @@ class AppearanceAe:
         self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='inputs')
         self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='targets')
         self.target_masks = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='masks')
-        self.session = tf.Session(config=args.tf_config)
+        self.session = tf.compat.v1.Session(config=args.tf_config)
         self.encoded, self.conv1, self.conv2, self.conv3 = cae.encoder(self.inputs_)
 
         self.encoder_variables = tf.global_variables()

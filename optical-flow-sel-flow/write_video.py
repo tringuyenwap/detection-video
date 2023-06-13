@@ -42,7 +42,7 @@ num_files = len(files_names)
 flow_ph = tf.compat.v1.placeholder(tf.float32, shape=(1, None, None, 2), name="flow_ph")
 img_color = flow_to_color(flow_ph, mask=None, max_flow=256)
 
-sess = tf.Session()
+sess = tf.compat.v1.Session()
 sess.run(tf.global_variables_initializer())
 output_video = cv.VideoWriter('01_%s.mp4' % direction, 0x7634706d, 25, (640,  360))
 
