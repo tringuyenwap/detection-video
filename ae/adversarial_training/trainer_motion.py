@@ -39,11 +39,11 @@ class MotionAe:
         self.session = tf.compat.v1.Session(config=args.tf_config)
         self.encoded, self.conv1, self.conv2, self.conv3 = cae.encoder(self.inputs_)
 
-        self.encoder_variables = tf.global_variables()
+        self.encoder_variables = tf.compat.v1.global_variables()
         self.decoded_target = cae.decoder(self.encoded, "target", 2, self.conv1, self.conv2, self.conv3)
         self.decoded_adversarial = cae.decoder(self.encoded, "adversarial", 2, self.conv1, self.conv2, self.conv3)
 
-        all_variables = tf.global_variables()
+        all_variables = tf.compat.v1.global_variables()
         self.adversarial_variables = [var for var in all_variables if var.name.find("adversarial") != -1]
         self.cost_target = tf.square(self.decoded_target - self.targets_)
         self.loss_target = tf.reduce_mean(self.cost_target)
