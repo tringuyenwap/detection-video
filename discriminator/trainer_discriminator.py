@@ -32,9 +32,9 @@ class Experiment:
         else:
             self.checkpoint_folder = os.path.join(args.CHECKPOINTS_BASE, "network_disc_latent_%s" % prefix_checkpoint)
         self.IS_RESTORE = tf.train.latest_checkpoint(self.checkpoint_folder) is not None
-        self.inputs_ = tf.placeholder(np.float32, [None, 64, 64, num_channels])
-        self.is_training = tf.placeholder(np.bool, None)
-        self.targets_ = tf.placeholder(np.float32, [None, 1])
+        self.inputs_ = tf.compat.v1.placeholder(np.float32, [None, 64, 64, num_channels])
+        self.is_training = tf.compat.v1.placeholder(np.bool, None)
+        self.targets_ = tf.compat.v1.placeholder(np.float32, [None, 1])
 
         # build neural network
         self.logits = model.lenet(self.inputs_, self.is_training)
@@ -46,11 +46,11 @@ class Experiment:
                                                                                            global_step=self.global_step)
         self.sess = tf.Session(config=args.tf_config)
 
-        self.train_loss_placeholder = tf.placeholder(tf.float32, shape=[], name="train_loss")
-        self.val_loss_placeholder = tf.placeholder(tf.float32, shape=[], name="val_loss")
+        self.train_loss_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="train_loss")
+        self.val_loss_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="val_loss")
 
-        self.train_acc_placeholder = tf.placeholder(tf.float32, shape=[], name="train_acc")
-        self.val_acc_placeholder = tf.placeholder(tf.float32, shape=[], name="val_acc")
+        self.train_acc_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="train_acc")
+        self.val_acc_placeholder = tf.compat.v1.placeholder(tf.float32, shape=[], name="val_acc")
 
         tf.summary.scalar('train_loss', self.train_loss_placeholder)
         tf.summary.scalar('val_loss', self.val_loss_placeholder)

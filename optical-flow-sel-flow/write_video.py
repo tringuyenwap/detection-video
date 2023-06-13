@@ -39,7 +39,7 @@ direction = 'bw'
 files_names = glob.glob(os.path.join(of_path, '*_%s.npy' % direction))
 
 num_files = len(files_names)
-flow_ph = tf.placeholder(tf.float32, shape=(1, None, None, 2), name="flow_ph")
+flow_ph = tf.compat.v1.placeholder(tf.float32, shape=(1, None, None, 2), name="flow_ph")
 img_color = flow_to_color(flow_ph, mask=None, max_flow=256)
 
 sess = tf.Session()

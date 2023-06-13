@@ -36,8 +36,8 @@ class MotionAe:
             self.iter = tf_dataset.make_initializable_iterator()
             self.inputs_, self.targets_, self.names_ = self.iter.get_next()
         else:
-            self.inputs_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
-            self.targets_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
+            self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
+            self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
 
         self.session = tf.Session(config=args.tf_config)
         self.decoded, self.encoded = cae.model(self.inputs_, 2)

@@ -33,8 +33,8 @@ class MotionAe:
         if append_to_path is not None:
             self.checkpoint_folder = os.path.join(append_to_path, self.checkpoint_folder)
 
-        self.inputs_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
-        self.targets_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
+        self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='inputs')
+        self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 2), name='targets')
 
         self.session = tf.Session(config=args.tf_config)
         self.encoded, self.conv1, self.conv2, self.conv3 = cae.encoder(self.inputs_)

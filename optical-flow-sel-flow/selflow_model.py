@@ -151,9 +151,9 @@ class SelFlowModel(object):
                 print("The video %s does not have enough frames." % video.name)
 
     def extract_flow(self, restore_model, save_dir, is_normalize_img=True):  
-        batch_img0_h = tf.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img0_h")
-        batch_img1_h = tf.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img1_h")
-        batch_img2_h = tf.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img2_h")
+        batch_img0_h = tf.compat.v1.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img0_h")
+        batch_img1_h = tf.compat.v1.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img1_h")
+        batch_img2_h = tf.compat.v1.placeholder(tf.float32, shape=(None, None, None, 3), name="batch_img2_h")
         img_shape = tf.shape(batch_img0_h, name='shape')
         h = img_shape[1]
         w = img_shape[2]

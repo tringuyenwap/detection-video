@@ -29,9 +29,9 @@ class AppearanceAe:
             self.checkpoint_folder = os.path.join(append_to_path, self.checkpoint_folder)
 
         self.input_size = (64, 64)
-        self.inputs_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='inputs')
-        self.targets_ = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='targets')
-        self.target_masks = tf.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='masks')
+        self.inputs_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='inputs')
+        self.targets_ = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='targets')
+        self.target_masks = tf.compat.v1.placeholder(tf.float32, (None, self.input_size[0], self.input_size[1], 1), name='masks')
         self.session = tf.Session(config=args.tf_config)
         self.encoded, self.conv1, self.conv2, self.conv3 = cae.encoder(self.inputs_)
 
