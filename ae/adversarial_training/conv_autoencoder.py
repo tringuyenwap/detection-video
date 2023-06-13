@@ -80,7 +80,7 @@ def decoder(encoded, name, num_output_filter, conv1, conv2, conv3):
     with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
-        upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
+        upsample1 = tf.compat.v1.image.resize(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 16x16x16
         conv4 = tf.compat.v1.layers.conv2d(inputs=upsample1, filters=16, kernel_size=(3, 3), padding='same',
@@ -88,14 +88,14 @@ def decoder(encoded, name, num_output_filter, conv1, conv2, conv3):
 
         conv4 = conv4 + conv3
         # Now 16x16x16
-        upsample2 = tf.image.resize_images(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
+        upsample2 = tf.compat.v1.image.resize(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 32x32x16
         conv5 = tf.compat.v1.layers.conv2d(inputs=upsample2, filters=32, kernel_size=(3, 3), padding='same',
                                  activation=tf.nn.relu)
         conv5 = conv5 + conv2
         # Now 32x32x32
-        upsample3 = tf.image.resize_images(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
+        upsample3 = tf.compat.v1.image.resize(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 64x64x32
         conv6 = tf.compat.v1.layers.conv2d(inputs=upsample3, filters=32, kernel_size=(3, 3), padding='same',
@@ -110,19 +110,19 @@ def decoder_wider(encoded, name, num_output_filter=1):
     with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
-        upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
+        upsample1 = tf.compat.v1.image.resize(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 16x16x16
         conv4 = tf.compat.v1.layers.conv2d(inputs=upsample1, filters=64, kernel_size=(3, 3), padding='same',
                                  activation=tf.nn.relu)
         # Now 16x16x16
-        upsample2 = tf.image.resize_images(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
+        upsample2 = tf.compat.v1.image.resize(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 32x32x16
         conv5 = tf.compat.v1.layers.conv2d(inputs=upsample2, filters=128, kernel_size=(3, 3), padding='same',
                                  activation=tf.nn.relu)
         # Now 32x32x32
-        upsample3 = tf.image.resize_images(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
+        upsample3 = tf.compat.v1.image.resize(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 64x64x32
         conv6 = tf.compat.v1.layers.conv2d(inputs=upsample3, filters=256, kernel_size=(3, 3), padding='same',
@@ -136,19 +136,19 @@ def decoder_mask(encoded, name):
     with tf.compat.v1.variable_scope('decoder/' + name) as scope:
         # Now 8x8x16
         ### Decoder
-        upsample1 = tf.image.resize_images(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
+        upsample1 = tf.compat.v1.image.resize(encoded, size=(encoded.shape[1] * 2, encoded.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 16x16x16
         conv4 = tf.compat.v1.layers.conv2d(inputs=upsample1, filters=16, kernel_size=(3, 3), padding='same',
                                  activation=tf.nn.relu)
         # Now 16x16x16
-        upsample2 = tf.image.resize_images(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
+        upsample2 = tf.compat.v1.image.resize(conv4, size=(conv4.shape[1] * 2, conv4.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 32x32x16
         conv5 = tf.compat.v1.layers.conv2d(inputs=upsample2, filters=32, kernel_size=(3, 3), padding='same',
                                  activation=tf.nn.relu)
         # Now 32x32x32
-        upsample3 = tf.image.resize_images(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
+        upsample3 = tf.compat.v1.image.resize(conv5, size=(conv5.shape[1] * 2, conv5.shape[2] * 2),
                                            method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
         # Now 64x64x32
         conv6 = tf.compat.v1.layers.conv2d(inputs=upsample3, filters=32, kernel_size=(3, 3), padding='same',

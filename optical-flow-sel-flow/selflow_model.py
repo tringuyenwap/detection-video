@@ -100,9 +100,9 @@ class SelFlowModel(object):
         new_h = tf.where(tf.equal(tf.mod(h, 64), 0), h, (tf.to_int32(tf.floor(h / 64) + 1)) * 64)
         new_w = tf.where(tf.equal(tf.mod(w, 64), 0), w, (tf.to_int32(tf.floor(w / 64) + 1)) * 64)
         
-        batch_img0 = tf.image.resize_images(batch_img0, [new_h, new_w], method=1, align_corners=True)
-        batch_img1 = tf.image.resize_images(batch_img1, [new_h, new_w], method=1, align_corners=True)
-        batch_img2 = tf.image.resize_images(batch_img2, [new_h, new_w], method=1, align_corners=True)
+        batch_img0 = tf.compat.v1.image.resize(batch_img0, [new_h, new_w], method=1, align_corners=True)
+        batch_img1 = tf.compat.v1.image.resize(batch_img1, [new_h, new_w], method=1, align_corners=True)
+        batch_img2 = tf.compat.v1.image.resize(batch_img2, [new_h, new_w], method=1, align_corners=True)
         
         flow_fw, flow_bw = pyramid_processing(batch_img0, batch_img1, batch_img2, train=False, trainable=False, is_scale=True) 
         flow_fw['full_res'] = flow_resize(flow_fw['full_res'], [h, w], method=1)
@@ -161,9 +161,9 @@ class SelFlowModel(object):
         new_h = tf.where(tf.equal(tf.mod(h, 64), 0), h, (tf.to_int32(tf.floor(h / 64) + 1)) * 64)
         new_w = tf.where(tf.equal(tf.mod(w, 64), 0), w, (tf.to_int32(tf.floor(w / 64) + 1)) * 64)
         
-        batch_img0 = tf.image.resize_images(batch_img0_h, [new_h, new_w], method=1, align_corners=True)
-        batch_img1 = tf.image.resize_images(batch_img1_h, [new_h, new_w], method=1, align_corners=True)
-        batch_img2 = tf.image.resize_images(batch_img2_h, [new_h, new_w], method=1, align_corners=True)
+        batch_img0 = tf.compat.v1.image.resize(batch_img0_h, [new_h, new_w], method=1, align_corners=True)
+        batch_img1 = tf.compat.v1.image.resize(batch_img1_h, [new_h, new_w], method=1, align_corners=True)
+        batch_img2 = tf.compat.v1.image.resize(batch_img2_h, [new_h, new_w], method=1, align_corners=True)
         
         flow_fw, flow_bw = pyramid_processing(batch_img0, batch_img1, batch_img2, train=False, trainable=False, is_scale=True) 
         flow_fw['full_res'] = flow_resize(flow_fw['full_res'], [h, w], method=1)

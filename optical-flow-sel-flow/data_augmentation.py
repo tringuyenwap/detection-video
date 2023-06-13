@@ -66,7 +66,7 @@ def flow_resize(flow, out_size, is_scale=True, method=0):
         method: 0 mean bilinear, 1 means nearest
     '''
     flow_size = tf.to_float(tf.shape(flow)[-3:-1])
-    flow = tf.image.resize_images(flow, out_size, method=method, align_corners=True)
+    flow = tf.compat.v1.image.resize(flow, out_size, method=method, align_corners=True)
     if is_scale:
         scale = tf.to_float(out_size) / flow_size
         scale = tf.stack([scale[1], scale[0]])
