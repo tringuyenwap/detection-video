@@ -27,7 +27,7 @@ class YoloV3:
         self.anchors = [[10., 13.], [16., 30.], [33., 23.], [30., 61.], [62., 45.], [59., 119.], [116., 90.], [156., 198.], [373., 326.]]
 
         # reading: object detector
-        object_detector_nn_path = "./models/yolov3/yolov3.ckpt"
+        object_detector_nn_path = "/content/detection-video/models/yolov3/yolov3.ckpt"
         self.obj_detection_sess = self.create_session(object_detector_nn_path, config)
 
         self.__init_session()
