@@ -174,35 +174,25 @@ class YoloV3:
             sys.exit(-1)
 
         checkpoint_dir = '/content/detection-video/models/yolov3'
-        checkpoint_prefix = checkpoint_dir + '/yolov3.ckpt'
 
-        # Create a new TensorFlow session
-        session = tf.compat.v1.Session()
+        yolo_graph = tf.Graph()
+        session = tf.compat.v1.Session(graph=yolo_graph, config=config)
 
-        # Import the graph structure from the meta file
-        saver = tf.compat.v1.train.import_meta_graph(checkpoint_prefix + '.meta')
+        with yolo_graph.as_default():
+            input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
+            yolo_model = yolov3(self.num_classes, self.anchors)
+            with tf.compat.v1.variable_scope('yolov3'):
+                pred_feature_maps = yolo_model.forward(input_data, False)
+            pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
 
-        # Restore the weights from the checkpoint files
-        saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
-        return saver
-        # yolo_graph = tf.Graph()
-        # session = tf.compat.v1.Session(graph=yolo_graph, config=config)
+            pred_boxes_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
+            pred_scores_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
 
-        # with yolo_graph.as_default():
-        #     input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
-        #     yolo_model = yolov3(self.num_classes, self.anchors)
-        #     with tf.compat.v1.variable_scope('yolov3'):
-        #         pred_feature_maps = yolo_model.forward(input_data, False)
-        #     pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
+            boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
 
-        #     pred_boxes_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
-        #     pred_scores_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
-
-        #     boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
-
-        #     # Load the saved model
-        #     model = tf.keras.models.load_model(graph_path)
-        # return session
+            # Load the saved model
+            model = tf.keras.models.load(checkpoint_dir)
+        return session
 
     @staticmethod
     def gpu_nms(boxes, scores, num_classes, max_boxes=50, score_thresh=0.5, nms_thresh=0.5):
