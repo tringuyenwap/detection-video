@@ -173,18 +173,18 @@ class YoloV3:
             log_error("%s is missing." % graph_path)
             sys.exit(-1)
 
-            checkpoint_dir = '/content/detection-video/models/yolov3'
-            checkpoint_prefix = checkpoint_dir + '/yolov3.ckpt'
+        checkpoint_dir = '/content/detection-video/models/yolov3'
+        checkpoint_prefix = checkpoint_dir + '/yolov3.ckpt'
 
-            # Create a new TensorFlow session
-            session = tf.compat.v1.Session()
+        # Create a new TensorFlow session
+        session = tf.compat.v1.Session()
 
-            # Import the graph structure from the meta file
-            saver = tf.compat.v1.train.import_meta_graph(checkpoint_prefix + '.meta')
+        # Import the graph structure from the meta file
+        saver = tf.compat.v1.train.import_meta_graph(checkpoint_prefix + '.meta')
 
-            # Restore the weights from the checkpoint files
-            saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
-            return saver
+        # Restore the weights from the checkpoint files
+        saver.restore(session, tf.train.latest_checkpoint(checkpoint_dir))
+        return saver
         # yolo_graph = tf.Graph()
         # session = tf.compat.v1.Session(graph=yolo_graph, config=config)
 
