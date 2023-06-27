@@ -169,12 +169,18 @@ class YoloV3:
         self.obj_detection_sess.close()
 
     def create_session(self, graph_path, config):
-        # if not check_file_existence(graph_path + '.meta'):
-        #     log_error("%s is missing." % graph_path)
-        #     sys.exit(-1)
-
-        yolo_graph = tf.Graph()
-        session = tf.compat.v1.Session(graph=yolo_graph, config=config)
+        if not check_file_existence(graph_path + '.meta'):
+            log_error("%s is missing." % graph_path)
+            sys.exit(-1)
+        
+        sess = tf.compat.v1.Session()
+        # Load the graph structure from the .meta file
+        saver = tf.compat.v1.train.import_meta_graph(graph_path + '.meta')
+        saver.restore(sess, graph_path)
+        
+        yolo_graph = tf.compat.v1.get_default_graph()
+        # yolo_graph = tf.Graph()
+        # session = tf.compat.v1.Session(graph=yolo_graph, config=config)
 
         with yolo_graph.as_default():
             input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
@@ -190,7 +196,7 @@ class YoloV3:
 
             # Load the saved model
             model = tf.keras.models.load_model(graph_path)
-        return session
+        return sess
 
     @staticmethod
     def gpu_nms(boxes, scores, num_classes, max_boxes=50, score_thresh=0.5, nms_thresh=0.5):
