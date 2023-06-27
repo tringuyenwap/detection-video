@@ -168,53 +168,30 @@ class YoloV3:
     def close_sess(self):
         self.obj_detection_sess.close()
 
+
     def create_session(self, graph_path, config):
-        ckpt = tf.train.get_checkpoint_state(graph_path)
-        if ckpt and ckpt.model_checkpoint_path:
-            ckpt_path = ckpt.model_checkpoint_path
-        else:
-            log_error("Checkpoint not found in %s" % graph_path)
+        if not check_file_existence(graph_path + '.meta'):
+            log_error("%s is missing." % graph_path)
             sys.exit(-1)
 
         yolo_graph = tf.Graph()
         session = tf.compat.v1.Session(graph=yolo_graph, config=config)
 
         with yolo_graph.as_default():
-            saver = tf.compat.v1.train.import_meta_graph(graph_path + '.meta')
-            saver.restore(session, ckpt_path)
+            input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
+            yolo_model = yolov3(self.num_classes, self.anchors)
+            with tf.compat.v1.variable_scope('yolov3'):
+                pred_feature_maps = yolo_model.forward(input_data, False)
+            pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
 
-            # Access the necessary tensors from the loaded graph
-            input_data = yolo_graph.get_tensor_by_name('input_data:0')
-            pred_boxes = yolo_graph.get_tensor_by_name('pred_boxes:0')
-            pred_confs = yolo_graph.get_tensor_by_name('pred_confs:0')
-            pred_probs = yolo_graph.get_tensor_by_name('pred_probs:0')
+            pred_boxes_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
+            pred_scores_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
 
+            boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
+
+            # Load the saved model
+            # model = tf.keras.models.load_model(graph_path)
         return session
-
-
-    # def create_session(self, graph_path, config):
-        # if not check_file_existence(graph_path + '.meta'):
-        #     log_error("%s is missing." % graph_path)
-        #     sys.exit(-1)
-
-        # yolo_graph = tf.Graph()
-        # session = tf.compat.v1.Session(graph=yolo_graph, config=config)
-
-        # with yolo_graph.as_default():
-        #     input_data = tf.compat.v1.placeholder(tf.float32, [None, self.input_size[1], self.input_size[0], 3], name='input_data')
-        #     yolo_model = yolov3(self.num_classes, self.anchors)
-        #     with tf.compat.v1.variable_scope('yolov3'):
-        #         pred_feature_maps = yolo_model.forward(input_data, False)
-        #     pred_boxes, pred_confs, pred_probs = yolo_model.predict(pred_feature_maps)
-
-        #     pred_boxes_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 4], name='pred_boxes_ph')
-        #     pred_scores_ph = tf.compat.v1.placeholder(tf.float32, [1, 10647, 80], name='pred_scores_ph')
-
-        #     boxes, scores, labels = YoloV3.gpu_nms(pred_boxes_ph, pred_scores_ph, self.num_classes, max_boxes=200, score_thresh=0.1, nms_thresh=0.45)
-
-        #     # Load the saved model
-        #     model = tf.keras.models.load_model(graph_path)
-        # return session
 
     @staticmethod
     def gpu_nms(boxes, scores, num_classes, max_boxes=50, score_thresh=0.5, nms_thresh=0.5):
